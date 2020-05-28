@@ -1,8 +1,8 @@
 
 try:
     from importlib import metadata as importlib_metadata
-except ModuleNotFoundError:
-    # Backport for
+except ImportError:
+    # Backport for Python <3.8
     import importlib_metadata
 
 try:
