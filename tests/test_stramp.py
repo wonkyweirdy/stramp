@@ -46,7 +46,6 @@ def test_hash_only():
             assert d['documents'][0]['range_hashes'] == org_sample_1_hashes
 
 
-
 def test_hash():
 
     sample_file_1 = os.path.join(os.path.dirname(__file__), 'org-sample-1.txt')

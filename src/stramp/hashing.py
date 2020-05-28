@@ -72,4 +72,3 @@ def hash_files(org_docs: Iterable[DocFile], out: TextIO):
             out.write(file_json.getvalue())
 
     out.write(']}\n')
-
