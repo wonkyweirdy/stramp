@@ -1,6 +1,10 @@
+
+
+![Python package build status](https://img.shields.io/github/workflow/status/wonkyweirdy/stramp/Python%20package)
+
 # stramp
 
-Create blockchain-backed timestamp proof for all sections and subsections of documents
+Blockchain-backed timestamp proof for structured document sections
 
 ## Description
 
