@@ -1,6 +1,7 @@
 import datetime
 import hashlib
 import os
+import random
 import re
 import shutil
 import subprocess
@@ -31,16 +32,14 @@ def create_directories() -> None:
 
 def hash_document(file_name: str) -> DocFile:
 
-    quoted_file_name = quote_path(file_name)
-    copy_path = paths.data_dir_path / quoted_file_name  # type: Union[PathLike, Path]
+    copy_path = paths.data_dir_path / f'temp-{random.randrange(1 << 64):08x}'  # type: Union[PathLike, Path]
     shutil.copy2(file_name, copy_path)
 
-    file_hash = hashlib.sha256(copy_path.read_bytes()).hexdigest()[:16]
-    quoted_file_name_with_hash = quoted_file_name + '#' + file_hash
-    copy_with_hash_path = paths.data_dir_path / quoted_file_name_with_hash  # type: Union[PathLike, Path]
-    os.rename(copy_path, copy_with_hash_path)
+    file_hash = hashlib.sha256(copy_path.read_bytes()).hexdigest()
+    data_file_path = paths.data_dir_path / file_hash  # type: Union[PathLike, Path]
+    os.rename(copy_path, data_file_path)
 
-    return DocFile(Path(file_name), file_data_path=copy_with_hash_path)
+    return DocFile(Path(file_name), file_data_path=data_file_path)
 
 
 def hash_documents() -> Path:
@@ -157,18 +156,6 @@ def upgrade_files(current_hash_path: Optional[Path] = None) -> None:
                 path.rename(paths.complete_dir_path / path.name)
             except FileNotFoundError:
                 pass
-
-
-def quote_path(x: str) -> str:
-    def repl(m):
-        return '|' if m.group(0) == '/' else '`' + m.group(0)
-    return re.sub(r'[/`|~]', repl, x)
-
-
-def unquote_path(x: str) -> str:
-    def repl(m):
-        return '/' if m.group(0) == '|' else m.group(1)
-    return re.sub(r'\||`(.)', repl, x)
 
 
 @click.command()
