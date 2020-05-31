@@ -121,7 +121,7 @@ stramp -x
 ```
 
 The `-x` option implies `-p`, so the result of the above command would be to hash all the documents in the
-configured list and then do any processing (see [How it works](#How it works)).
+configured list and then do any processing (see the *How it works* section above).
 
 Command help is available with `stramp --help`:
 
@@ -167,6 +167,19 @@ Maybe other structured document formats:
 
 - HTML
 - ENEX (Evernote)
+
+## Security
+
+I am aware that the content of a section could be deduced from only a hash in a hash file if that text
+is short or predictable. For example, this would be a problematic in an Org-mode text file:
+
+```
+* Passwords:
+** letmein
+** YouCantGuessThis
+``` 
+
+I'm ignoring this for now in the interest of keeping things simple.
 
 ## Legal
 
