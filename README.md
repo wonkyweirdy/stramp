@@ -36,7 +36,7 @@ at a specific date.
 
 Stramp requires Python 3.6 or newer. In addition to the Python library dependencies (automatically installed,
 assuming you use `pip`), you will also need the `ots` command from
-[opentimestamps-client](https://pypi.org/project/opentimestamps-client/).
+[opentimestamps-client](https://pypi.org/project/opentimestamps-client/):
 
 ```
 pip install opentimestamps-client
@@ -51,7 +51,7 @@ pip install stramp
 other options are to install a built release:
 
 ```
-pip install ./stramp-0.2.zip
+pip install ./stramp-0.2.0.zip
 ```
 
 or install from a cloned git repository:
