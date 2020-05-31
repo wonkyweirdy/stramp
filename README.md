@@ -93,12 +93,6 @@ servers had enough time to process the stamp completely.
 The `new` and `stamped` directories are used as queues. If the `ots stamp` or `ots upgade` command fails for a
 hash file on one run, it will be retried on a later run.
 
-## Stamp verification
-
-Stramp does not implement anything to help with verification. The easiest way to check a stamp is to drop it
-onto the [opentimestamps.org](https://opentimestamps.org/) web page. If you want to check it locally, it is more
-involved since you need to run (or have access to) a server running Bitcoin Core.
-
 ## Configuration
 
 The configuration file is expected to be at `~/.stramp/config.json`.
@@ -117,6 +111,37 @@ Example content:
 
 The `ots_command_path` specification is optional. It defaults to just `"ots"`, expecting that command to be found
 in the command search path.
+
+## Usage
+
+Stramp will normally be called as:
+
+```
+stramp -x
+```
+
+The `-x` option implies `-p`, so the result of the above command would be to hash all the documents in the
+configured list and then do any processing (see [How it works](#How it works)).
+
+Command help is available with `stramp --help`:
+
+```
+Usage: stramp [OPTIONS] [FILES]...
+
+Options:
+  -x, --hash       Hash the files listed in the configuration
+  -p, --process    Stamp or upgrade any hash files that need processing
+  -c, --hash-only  Just write generated hash file JSON to standard output
+  -v, --verbose    Print more information
+  -V, --version    Print the application version
+  --help           Show this message and exit.
+```
+
+## Stamp verification
+
+Stramp does not implement anything to help with verification. The easiest way to check a stamp is to drop it
+onto the [opentimestamps.org](https://opentimestamps.org/) web page. If you want to check it locally, it is more
+involved since you need to run (or have access to) a server running Bitcoin Core.
 
 ## Document formats
 
