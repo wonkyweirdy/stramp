@@ -14,6 +14,12 @@ technology that is backed by the Bitcoin [blockchain](https://en.wikipedia.org/w
 The protocol used is [OpenTimestamps](https://opentimestamps.org/). Servers supporting this protocol are public
 and free to use.
 
+The advantage of Stramp over using another [OpenTimestamps client](https://pypi.org/project/opentimestamps-client/)
+directly is that you can prove one or more chosen sections of your document selectively without revealing
+the content of the entire document. This is useful if you collect notes for a project in a large file where
+some sections may have information you don't want to reveal and other sections have text for which you might
+want timestamp proof at some later time.
+
 It is intended for this command to be run periodically in the background with a service such as
 [cron](https://en.wikipedia.org/wiki/Cron). I'd recommend setting it up to run once or twice a day.
 
@@ -48,13 +54,13 @@ If Stramp is available from [PyPI](https://pypi.org/project/stramp/), you can in
 pip install stramp
 ```
 
-other options are to install a built release:
+Other options are to install it from the GitHub repository directly:
 
 ```
-pip install ./stramp-0.2.0.zip
+pip install -U 'git+https://github.com/wonkyweirdy/stramp#egg=stramp'
 ```
 
-or install from a cloned git repository:
+or to install from a cloned git repository:
 
 ```
 git clone https://github.com/wonkyweirdy/stramp.git
