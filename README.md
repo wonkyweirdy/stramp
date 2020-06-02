@@ -1,5 +1,6 @@
 
-![Python package build status](https://img.shields.io/github/workflow/status/wonkyweirdy/stramp/Python%20package)
+[![PyPI](https://img.shields.io/pypi/v/stramp.svg?logo=python&logoColor=white)](https://pypi.org/project/stramp/)
+![Python package build status](https://img.shields.io/github/workflow/status/wonkyweirdy/stramp/Python%20package?logo=python&logoColor=white)
 
 # stramp
 
