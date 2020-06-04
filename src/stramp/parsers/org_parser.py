@@ -2,7 +2,7 @@
 import datetime
 import os
 import re
-from typing import Optional
+from typing import List, Optional, Sequence
 
 from stramp.docstruct import DocFile, DocSection
 
@@ -11,7 +11,7 @@ re_heading = re.compile(br'(?m)^(\*+)[^\S\r\n](\S.*)$')
 re_greater_block_delimiter = re.compile(br'(?mi)^[^\S\r\n]*#\+(begin|end)_(\S+)(?:[^\S\r\n].*)?$')
 
 
-def parse_org_section_tree(data: bytes):
+def find_headings(data: bytes) -> List[DocSection]:
 
     headings = [DocSection(
         text='(ROOT)',
@@ -47,6 +47,11 @@ def parse_org_section_tree(data: bytes):
                 start_offset=m_heading.start()))
             i = m_heading.end()
 
+    return headings
+
+
+def link_sections(headings: Sequence[DocSection]) -> DocSection:
+
     h_prev = None  # type: Optional[DocSection]
     root = None  # type: Optional[DocSection]
 
@@ -81,20 +86,22 @@ def parse_org_section_tree(data: bytes):
 
     hx = h_prev
     while hx is not None:
-        hx.end_offset = len(data)
+        hx.end_offset = root.end_offset
         hx = hx.parent
 
     return root
 
 
-def load_org_file(org: DocFile):
+def load_file(doc: DocFile):
 
-    if org.file_data_path is None:
-        org.file_data_path = org.file_path
+    if doc.file_data_path is None:
+        doc.file_data_path = doc.file_path
 
-    with org.file_data_path.open('rb') as f:
-        org.file_bytes = f.read()
-        org.file_stat = os.stat(f.fileno())
+    with doc.file_data_path.open('rb') as f:
+        doc.file_bytes = f.read()
+        doc.file_stat = os.stat(f.fileno())
 
-    org.file_read_datetime = datetime.datetime.utcnow()
-    org.root_heading = parse_org_section_tree(org.file_bytes)
+    doc.file_read_datetime = datetime.datetime.utcnow()
+
+    sections = find_headings(doc.file_bytes)
+    doc.root_heading = link_sections(sections)
