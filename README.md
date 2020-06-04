@@ -104,8 +104,14 @@ Example content:
 {
     "ots_command_path": "/usr/local/bin/ots",
     "documents": [
-        "/home/joe/Documents/personal-notes.org",
-        "/home/joe/Documents/project1/project1.org"
+        {
+          "path": "/home/joe/Documents/personal-notes.org",
+          "format": "org"
+        },
+        {
+          "path": "/home/joe/Documents/project1/project1.org",
+          "format": "org"
+        }
     ]
 }
 ```
