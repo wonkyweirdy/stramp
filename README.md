@@ -58,7 +58,7 @@ pip install stramp
 Other options are to install it from the GitHub repository directly:
 
 ```
-pip install -U 'git+https://github.com/wonkyweirdy/stramp#egg=stramp'
+pip install -U "git+https://github.com/wonkyweirdy/stramp#egg=stramp"
 ```
 
 or to install from a cloned git repository:
@@ -154,16 +154,28 @@ involved since you need to run (or have access to) a server running Bitcoin Core
 
 ### Org-mode
 
-Currently, only [Org-mode](https://orgmode.org/) format as UTF-8 is supported since this is what I use for my notes.
+[Org-mode](https://orgmode.org/) format as UTF-8 is supported since this is what I use for my notes.
 The Org-mode support may not even be complete since have only implemented it to support the Org features
 I use.
+
+### Markdown
+
+[Markdown](https://en.wikipedia.org/wiki/Markdown) is supported. The specific variant of Markdown supported
+is CommonMark. Other variants may work as long as the headings can still be correctly interpreted using
+the rules of CommonMark.
+
+Markdown support depends on [Marko](https://github.com/frostming/marko). Either install `Marko` separately
+or specify `commonmark` extra when installing with `pip`:
+
+```
+pip install "stramp[commonmark]"
+```
 
 ### Future formats
 
 I would consider adding support for other
 [lightweight markup languages](https://en.wikipedia.org/wiki/Lightweight_markup_language):
 
-- [Markdown](https://en.wikipedia.org/wiki/Markdown) (flavors?)
 - [reStructuredText](https://docutils.sourceforge.io/rst.html)
 - [MediaWiki Wikitext](https://www.mediawiki.org/wiki/Wikitext)
 - [Tiki Wiki](https://doc.tiki.org/Wiki-Syntax-Text)
