@@ -56,8 +56,8 @@ def test_hash():
 
         config = {
             'documents': [
-                sample_file_1,
-                sample_file_2,
+                dict(path=sample_file_1, format='org'),
+                dict(path=sample_file_2, format='org'),
             ]
         }
 

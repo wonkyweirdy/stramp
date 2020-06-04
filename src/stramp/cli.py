@@ -13,7 +13,7 @@ from typing import List, Optional, Union
 
 import click
 
-from stramp.configfile import get_config
+from stramp.configfile import get_config, get_config_documents
 from stramp.docstruct import DocFile
 from stramp.globalstate import get_global_state
 from stramp.hashing import hash_files
@@ -30,40 +30,38 @@ def create_directories() -> None:
     paths.complete_dir_path.mkdir(exist_ok=True)
 
 
-def hash_document(file_name: str) -> DocFile:
+def hash_document(doc: DocFile) -> None:
 
     copy_path = paths.data_dir_path / f'temp-{random.randrange(1 << 64):08x}'  # type: Union[PathLike, Path]
-    shutil.copy2(file_name, copy_path)
+    shutil.copy2(str(doc.file_path), copy_path)
 
     file_hash = hashlib.sha256(copy_path.read_bytes()).hexdigest()
     data_file_path = paths.data_dir_path / file_hash  # type: Union[PathLike, Path]
     os.rename(copy_path, data_file_path)
 
-    return DocFile(Path(file_name), file_data_path=data_file_path)
+    doc.file_data_path = data_file_path
 
 
 def hash_documents() -> Path:
 
-    config = get_config()
+    documents = get_config_documents()
 
-    documents = config.get('documents')  # type: List[str]
-
-    org_documents = []
-    for file_name in documents:
+    good_documents = []
+    for doc in documents:
         # noinspection PyBroadException
         try:
-            org = hash_document(file_name)
+            hash_document(doc)
         except FileNotFoundError:
             if get_global_state().verbose:
-                print(f'Document file not found: {file_name}', file=sys.stderr)
+                print(f'Document file not found: {doc.file_path}', file=sys.stderr)
         except IOError as ex:
-            print(f'Error accessing document file "{file_name}": {ex}', file=sys.stderr)
+            print(f'Error accessing document file "{doc.file_path}": {ex}', file=sys.stderr)
         else:
-            org_documents.append(org)
+            good_documents.append(doc)
 
     current_hash_path = paths.new_dir_path / 'hashes-{:%Y%m%d%H%M%S}.json'.format(datetime.datetime.utcnow())
     with current_hash_path.open('w', encoding='UTF-8') as f:
-        hash_files(org_documents, f)
+        hash_files(good_documents, f)
 
     return current_hash_path
 
@@ -194,9 +192,11 @@ def main(
     if hash_only:
         if hash_ or process:
             raise click.UsageError('-c/--hash-only cannot be combined with other options')
-        if not files:
-            files = get_config()['documents']
-        hash_files((DocFile(Path(f)) for f in files), sys.stdout)
+        if files:
+            docs = [DocFile(Path(f)) for f in files]
+        else:
+            docs = get_config_documents()
+        hash_files(docs, sys.stdout)
         return
 
     if files:
