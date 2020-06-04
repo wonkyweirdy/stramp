@@ -135,7 +135,7 @@ def upgrade_files(current_hash_path: Optional[Path] = None) -> None:
         except OSError:
             continue
 
-        if age < 8 * 3600:
+        if age < 7 * 3600:
             continue
 
         args = [
