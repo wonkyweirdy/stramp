@@ -64,6 +64,9 @@ def hash_files(docs: Iterable[DocFile], out: TextIO):
         if doc.file_format == 'org':
             from stramp.parsers.org_parser import load_file as load_org_file
             load_org_file(doc)
+        elif doc.file_format == 'markdown':
+            from stramp.parsers.markdown_parser import load_file as load_markdown_file
+            load_markdown_file(doc)
         else:
             raise ValueError(f'Unsupported file format {doc.file_format!r}')
 
