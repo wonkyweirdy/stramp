@@ -109,8 +109,8 @@ Example content:
           "format": "org"
         },
         {
-          "path": "/home/joe/Documents/project1/project1.org",
-          "format": "org"
+          "path": "/home/joe/Documents/project1/project1.md",
+          "format": "commonmark"
         }
     ]
 }
@@ -164,7 +164,7 @@ I use.
 is CommonMark. Other variants may work as long as the headings can still be correctly interpreted using
 the rules of CommonMark.
 
-Markdown support depends on [Marko](https://github.com/frostming/marko). Either install `Marko` separately
+Markdown support depends on [Marko](https://github.com/frostming/marko). Either install Marko separately
 or specify `commonmark` extra when installing with `pip`:
 
 ```
